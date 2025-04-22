@@ -1,4 +1,3 @@
-
 import { Cell, CellPosition, GameBoard, GameState, MoveHistory, Player } from "../types/game";
 
 const MAX_MOVES_PER_PLAYER = 3;
@@ -19,73 +18,59 @@ export const initializeGame = (): GameState => {
     winner: null,
     winLine: null,
     isGameOver: false,
+    selectionMode: false,
+    pendingMove: null,
   };
 };
 
-// Make a move and update the game state
 export const makeMove = (
   state: GameState,
   position: CellPosition
 ): GameState => {
-  // Copy the current state to avoid mutations
   const newState = { ...state };
   const { row, col } = position;
 
-  // If the game is over or the cell is already taken, ignore the move
   if (newState.isGameOver || newState.board[row][col] !== null) {
     return newState;
   }
 
   const currentPlayer = newState.currentPlayer;
+  const currentPlayerMoves = currentPlayer === "x" ? newState.playerXMoves : newState.playerOMoves;
+
+  if (currentPlayerMoves.length === MAX_MOVES_PER_PLAYER) {
+    // Enter selection mode
+    newState.selectionMode = true;
+    newState.pendingMove = position;
+    return newState;
+  }
+
+  return processMove(newState, position);
+};
+
+export const processMove = (state: GameState, position: CellPosition): GameState => {
+  const newState = { ...state };
+  const { row, col } = position;
+  const currentPlayer = newState.currentPlayer;
+  
   const move: MoveHistory = {
     position,
     player: currentPlayer,
     timestamp: Date.now(),
   };
 
-  // Add the move to history
   newState.moveHistory = [...newState.moveHistory, move];
 
-  // Update player's move list
   if (currentPlayer === "x") {
     newState.playerXMoves = [...newState.playerXMoves, move];
-    // If player has more than MAX_MOVES_PER_PLAYER moves, remove the oldest one
-    if (newState.playerXMoves.length > MAX_MOVES_PER_PLAYER) {
-      const oldestMove = newState.playerXMoves.shift();
-      if (oldestMove) {
-        const { row, col } = oldestMove.position;
-        // Remove the symbol from the board
-        newState.board = newState.board.map((r, rowIdx) =>
-          r.map((cell, colIdx) =>
-            rowIdx === row && colIdx === col ? null : cell
-          )
-        );
-      }
-    }
   } else {
     newState.playerOMoves = [...newState.playerOMoves, move];
-    // If player has more than MAX_MOVES_PER_PLAYER moves, remove the oldest one
-    if (newState.playerOMoves.length > MAX_MOVES_PER_PLAYER) {
-      const oldestMove = newState.playerOMoves.shift();
-      if (oldestMove) {
-        const { row, col } = oldestMove.position;
-        // Remove the symbol from the board
-        newState.board = newState.board.map((r, rowIdx) =>
-          r.map((cell, colIdx) =>
-            rowIdx === row && colIdx === col ? null : cell
-          )
-        );
-      }
-    }
   }
 
-  // Place the new symbol on the board
   const newBoard = [...newState.board];
   newBoard[row] = [...newBoard[row]];
   newBoard[row][col] = currentPlayer;
   newState.board = newBoard;
 
-  // Check for winner
   const winResult = checkWinner(newState.board);
   if (winResult) {
     newState.winner = winResult.winner;
@@ -95,8 +80,35 @@ export const makeMove = (
     newState.winner = "draw";
     newState.isGameOver = true;
   } else {
-    // Switch to the other player
     newState.currentPlayer = currentPlayer === "x" ? "o" : "x";
+  }
+
+  return newState;
+};
+
+export const removeSymbol = (state: GameState, position: CellPosition): GameState => {
+  const newState = { ...state };
+  const currentPlayer = newState.currentPlayer;
+  const playerMoves = currentPlayer === "x" ? newState.playerXMoves : newState.playerOMoves;
+
+  // Remove the selected symbol
+  if (currentPlayer === "x") {
+    newState.playerXMoves = playerMoves.filter(
+      move => move.position.row !== position.row || move.position.col !== position.col
+    );
+  } else {
+    newState.playerOMoves = playerMoves.filter(
+      move => move.position.row !== position.row || move.position.col !== position.col
+    );
+  }
+
+  // Clear the cell on the board
+  newState.board[position.row][position.col] = null;
+
+  // Exit selection mode and process the pending move
+  newState.selectionMode = false;
+  if (newState.pendingMove) {
+    return processMove(newState, newState.pendingMove);
   }
 
   return newState;

@@ -1,7 +1,7 @@
 
 import { useState } from "react";
 import { CellPosition } from "../types/game";
-import { initializeGame, makeMove } from "../utils/gameLogic";
+import { initializeGame, makeMove, removeSymbol } from "../utils/gameLogic";
 import GameBoard from "./GameBoard";
 import GameInfo from "./GameInfo";
 
@@ -11,8 +11,17 @@ const CyberGridX = () => {
   const handleCellClick = (position: CellPosition) => {
     if (gameState.isGameOver) return;
     
-    const newGameState = makeMove(gameState, position);
-    setGameState(newGameState);
+    if (gameState.selectionMode) {
+      // En mode sélection, on vérifie si la cellule cliquée contient un symbole du joueur actuel
+      const cell = gameState.board[position.row][position.col];
+      if (cell === gameState.currentPlayer) {
+        const newGameState = removeSymbol(gameState, position);
+        setGameState(newGameState);
+      }
+    } else {
+      const newGameState = makeMove(gameState, position);
+      setGameState(newGameState);
+    }
   };
   
   const handleRestart = () => {
@@ -26,7 +35,10 @@ const CyberGridX = () => {
           <GameBoard gameState={gameState} onCellClick={handleCellClick} />
         </div>
         <div>
-          <GameInfo gameState={gameState} onRestart={handleRestart} />
+          <GameInfo 
+            gameState={gameState} 
+            onRestart={handleRestart} 
+          />
         </div>
       </div>
     </div>
@@ -34,3 +46,4 @@ const CyberGridX = () => {
 };
 
 export default CyberGridX;
+

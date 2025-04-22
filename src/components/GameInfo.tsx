@@ -1,4 +1,3 @@
-
 import { Circle, X } from "lucide-react";
 import { GameState, Player } from "../types/game";
 
@@ -8,7 +7,7 @@ interface GameInfoProps {
 }
 
 const GameInfo = ({ gameState, onRestart }: GameInfoProps) => {
-  const { currentPlayer, winner, isGameOver, playerXMoves, playerOMoves } = gameState;
+  const { currentPlayer, winner, isGameOver, playerXMoves, playerOMoves, selectionMode } = gameState;
 
   const renderPlayerSymbol = (player: Player) => {
     return player === "x" ? (
@@ -19,6 +18,15 @@ const GameInfo = ({ gameState, onRestart }: GameInfoProps) => {
   };
 
   const renderGameStatus = () => {
+    if (selectionMode) {
+      return (
+        <div className={`${currentPlayer === "x" ? "text-cyber-cyan" : "text-cyber-primary"} animate-pulse-glow`}>
+          <span className="font-bold text-xl">SELECT SYMBOL TO REMOVE</span>
+          <p className="text-sm text-white/70">Click on one of your symbols</p>
+        </div>
+      );
+    }
+
     if (winner === "draw") {
       return (
         <div className="text-cyber-cyan animate-pulse-glow">

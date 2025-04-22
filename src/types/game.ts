@@ -25,4 +25,7 @@ export interface GameState {
   winner: Player | "draw" | null;
   winLine: CellPosition[] | null;
   isGameOver: boolean;
+  selectionMode: boolean;
+  pendingMove: CellPosition | null;
 }
+
