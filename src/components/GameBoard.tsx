@@ -1,4 +1,3 @@
-
 import React from "react";
 import { CellPosition, GameState } from "../types/game";
 import GameCell from "./GameCell";
@@ -9,7 +8,7 @@ interface GameBoardProps {
 }
 
 const GameBoard = ({ gameState, onCellClick }: GameBoardProps) => {
-  const { board, winLine } = gameState;
+  const { board, winLine, moveHistory } = gameState;
 
   // Check if a cell is part of the winning line
   const isWinningCell = (row: number, col: number): boolean => {
@@ -66,7 +65,6 @@ const GameBoard = ({ gameState, onCellClick }: GameBoardProps) => {
 
   return (
     <div className="cyber-border relative w-full max-w-md aspect-square mx-auto">
-      {/* Win line */}
       {winLine && <div className="win-line" style={getWinLineStyle()} />}
       
       <div className="grid grid-cols-3 grid-rows-3 gap-px w-full h-full bg-cyber-primary/30 p-px">
@@ -78,12 +76,12 @@ const GameBoard = ({ gameState, onCellClick }: GameBoardProps) => {
               position={{ row: rowIndex, col: colIndex }}
               onCellClick={onCellClick}
               isWinningCell={isWinningCell(rowIndex, colIndex)}
+              moveHistory={moveHistory}
             />
           ))
         )}
       </div>
       
-      {/* Grid lines overlay for aesthetic effect */}
       <div className="absolute inset-0 pointer-events-none">
         <div className="w-full h-full grid grid-cols-3 grid-rows-3">
           {Array.from({ length: 9 }).map((_, i) => (

@@ -1,6 +1,6 @@
 
 import { Circle, X } from "lucide-react";
-import { Cell, CellPosition } from "../types/game";
+import { Cell, CellPosition, MoveHistory } from "../types/game";
 import { useEffect, useState } from "react";
 
 interface GameCellProps {
@@ -8,14 +8,14 @@ interface GameCellProps {
   position: CellPosition;
   onCellClick: (position: CellPosition) => void;
   isWinningCell: boolean;
+  moveHistory: MoveHistory[];
 }
 
-const GameCell = ({ value, position, onCellClick, isWinningCell }: GameCellProps) => {
+const GameCell = ({ value, position, onCellClick, isWinningCell, moveHistory }: GameCellProps) => {
   const [isAnimating, setIsAnimating] = useState(false);
   const [previousValue, setPreviousValue] = useState<Cell>(null);
 
   useEffect(() => {
-    // If value changes, trigger animation
     if (value !== previousValue) {
       setIsAnimating(true);
       const timer = setTimeout(() => setIsAnimating(false), 300);
@@ -23,6 +23,14 @@ const GameCell = ({ value, position, onCellClick, isWinningCell }: GameCellProps
       return () => clearTimeout(timer);
     }
   }, [value, previousValue]);
+
+  const isFirstMove = (symbol: Cell): boolean => {
+    if (!symbol) return false;
+    const symbolMoves = moveHistory.filter(move => move.player === symbol);
+    if (symbolMoves.length === 0) return false;
+    const firstMove = symbolMoves[0];
+    return firstMove.position.row === position.row && firstMove.position.col === position.col;
+  };
 
   const handleClick = () => {
     onCellClick(position);
@@ -36,13 +44,17 @@ const GameCell = ({ value, position, onCellClick, isWinningCell }: GameCellProps
       {value === "x" && (
         <X 
           size={36} 
-          className={`player-x ${isAnimating ? 'symbol-fade-in' : ''} ${isWinningCell ? 'animate-glitch' : ''}`} 
+          className={`player-x ${isAnimating ? 'symbol-fade-in' : ''} 
+            ${isWinningCell ? 'animate-glitch' : ''} 
+            ${isFirstMove(value) ? 'animate-pulse opacity-100' : ''}`} 
         />
       )}
       {value === "o" && (
         <Circle 
           size={30} 
-          className={`player-o ${isAnimating ? 'symbol-fade-in' : ''} ${isWinningCell ? 'animate-glitch' : ''}`} 
+          className={`player-o ${isAnimating ? 'symbol-fade-in' : ''} 
+            ${isWinningCell ? 'animate-glitch' : ''} 
+            ${isFirstMove(value) ? 'animate-pulse opacity-100' : ''}`} 
         />
       )}
     </div>
