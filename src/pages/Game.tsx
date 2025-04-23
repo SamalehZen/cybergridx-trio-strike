@@ -2,9 +2,18 @@
 import { useNavigate } from "react-router-dom";
 import { ArrowLeft } from "lucide-react";
 import CyberGridX from "../components/CyberGridX";
+import AudioManager from "../components/AudioManager";
+import { useState, useEffect } from "react";
 
 const Game = () => {
   const navigate = useNavigate();
+  const [isMuted, setIsMuted] = useState(true);
+  const [hasWinner, setHasWinner] = useState(false);
+
+  useEffect(() => {
+    // Reset winner state when starting a new game
+    setHasWinner(false);
+  }, []);
 
   return (
     <div className="min-h-screen flex flex-col">
@@ -26,8 +35,10 @@ const Game = () => {
           <p className="text-white/70 text-sm md:text-base">TRIO-STRIKE TACTICAL GRID SYSTEM</p>
         </header>
         
-        <CyberGridX />
+        <CyberGridX onWin={() => setHasWinner(true)} />
       </main>
+
+      <AudioManager isMuted={isMuted} isWinning={hasWinner} />
     </div>
   );
 };

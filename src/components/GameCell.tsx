@@ -1,5 +1,5 @@
 
-import { Circle, X } from "lucide-react";
+import { Square, Circle } from "lucide-react";
 import { Cell, CellPosition, MoveHistory } from "../types/game";
 import { useEffect, useState } from "react";
 
@@ -32,29 +32,29 @@ const GameCell = ({ value, position, onCellClick, isWinningCell, moveHistory }: 
     return firstMove.position.row === position.row && firstMove.position.col === position.col;
   };
 
-  const handleClick = () => {
-    onCellClick(position);
-  };
-
   return (
     <div 
-      className={`cyber-grid-cell w-full h-full ${isWinningCell ? 'bg-cyber-vivid/30 animate-pulse-glow' : ''}`} 
-      onClick={handleClick}
+      className={`cyber-grid-cell w-full h-full ${isWinningCell ? 'bg-cyber-vivid/30 win-animation' : ''}`} 
+      onClick={() => onCellClick(position)}
     >
+      <div className="multicolor-trail" />
       {value === "x" && (
-        <X 
+        <Square 
           size={36} 
-          className={`player-x ${isAnimating ? 'symbol-fade-in' : ''} 
+          className={`symbol player-x ${isAnimating ? 'symbol-fade-in' : ''} 
             ${isWinningCell ? 'animate-glitch' : ''} 
-            ${isFirstMove(value) ? 'animate-pulse opacity-100' : ''}`} 
+            ${isFirstMove(value) ? 'animate-pulse opacity-100' : ''}`}
+          strokeWidth={3}
         />
       )}
       {value === "o" && (
         <Circle 
           size={30} 
-          className={`player-o ${isAnimating ? 'symbol-fade-in' : ''} 
+          className={`symbol player-o ${isAnimating ? 'symbol-fade-in' : ''} 
             ${isWinningCell ? 'animate-glitch' : ''} 
-            ${isFirstMove(value) ? 'animate-pulse opacity-100' : ''}`} 
+            ${isFirstMove(value) ? 'animate-pulse opacity-100' : ''}`}
+          strokeWidth={3}
+          fill="currentColor"
         />
       )}
     </div>

@@ -1,18 +1,27 @@
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { CellPosition } from "../types/game";
 import { initializeGame, makeMove, removeSymbol } from "../utils/gameLogic";
 import GameBoard from "./GameBoard";
 import GameInfo from "./GameInfo";
 
-const CyberGridX = () => {
+interface CyberGridXProps {
+  onWin?: () => void;
+}
+
+const CyberGridX = ({ onWin }: CyberGridXProps) => {
   const [gameState, setGameState] = useState(initializeGame());
   
+  useEffect(() => {
+    if (gameState.winner && gameState.winner !== "draw" && onWin) {
+      onWin();
+    }
+  }, [gameState.winner, onWin]);
+
   const handleCellClick = (position: CellPosition) => {
     if (gameState.isGameOver) return;
     
     if (gameState.selectionMode) {
-      // En mode sélection, on vérifie si la cellule cliquée contient un symbole du joueur actuel
       const cell = gameState.board[position.row][position.col];
       if (cell === gameState.currentPlayer) {
         const newGameState = removeSymbol(gameState, position);
@@ -46,4 +55,3 @@ const CyberGridX = () => {
 };
 
 export default CyberGridX;
-
