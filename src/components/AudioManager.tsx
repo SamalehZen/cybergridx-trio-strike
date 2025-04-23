@@ -11,20 +11,41 @@ const AudioManager = ({ isMuted, isWinning }: AudioManagerProps) => {
   const victoryRef = useRef<HTMLAudioElement>(null);
 
   useEffect(() => {
-    if (backgroundRef.current) {
-      backgroundRef.current.volume = 0.3;
-      if (isMuted) {
-        backgroundRef.current.pause();
-      } else {
-        backgroundRef.current.play();
+    const bgAudio = backgroundRef.current;
+    if (bgAudio) {
+      bgAudio.volume = 0.3;
+      try {
+        if (!isMuted) {
+          const playPromise = bgAudio.play();
+          if (playPromise !== undefined) {
+            playPromise.catch(() => {
+              // Auto-play was prevented, we'll need user interaction
+              console.log("Auto-play prevented. Waiting for user interaction.");
+            });
+          }
+        } else {
+          bgAudio.pause();
+        }
+      } catch (error) {
+        console.error("Audio playback error:", error);
       }
     }
   }, [isMuted]);
 
   useEffect(() => {
-    if (victoryRef.current && isWinning && !isMuted) {
-      victoryRef.current.volume = 0.5;
-      victoryRef.current.play();
+    const victoryAudio = victoryRef.current;
+    if (victoryAudio && isWinning && !isMuted) {
+      victoryAudio.volume = 0.5;
+      try {
+        const playPromise = victoryAudio.play();
+        if (playPromise !== undefined) {
+          playPromise.catch(() => {
+            console.log("Victory sound auto-play prevented.");
+          });
+        }
+      } catch (error) {
+        console.error("Victory sound playback error:", error);
+      }
     }
   }, [isWinning, isMuted]);
 

@@ -6,15 +6,15 @@ import GameBoard from "./GameBoard";
 import GameInfo from "./GameInfo";
 
 interface CyberGridXProps {
-  onWin?: () => void;
+  onWin?: (winner: 'x' | 'o' | 'draw' | null) => void;
 }
 
 const CyberGridX = ({ onWin }: CyberGridXProps) => {
   const [gameState, setGameState] = useState(initializeGame());
   
   useEffect(() => {
-    if (gameState.winner && gameState.winner !== "draw" && onWin) {
-      onWin();
+    if (gameState.winner) {
+      onWin?.(gameState.winner);
     }
   }, [gameState.winner, onWin]);
 
@@ -55,3 +55,4 @@ const CyberGridX = ({ onWin }: CyberGridXProps) => {
 };
 
 export default CyberGridX;
+

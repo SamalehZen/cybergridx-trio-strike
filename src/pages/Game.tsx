@@ -3,17 +3,34 @@ import { useNavigate } from "react-router-dom";
 import { ArrowLeft } from "lucide-react";
 import CyberGridX from "../components/CyberGridX";
 import AudioManager from "../components/AudioManager";
+import GameStats from "../components/GameStats";
 import { useState, useEffect } from "react";
 
 const Game = () => {
   const navigate = useNavigate();
-  const [isMuted, setIsMuted] = useState(true);
+  const [isMuted, setIsMuted] = useState(false);
   const [hasWinner, setHasWinner] = useState(false);
+  const [stats, setStats] = useState({
+    playerXWins: 0,
+    playerOWins: 0,
+    draws: 0
+  });
 
   useEffect(() => {
-    // Reset winner state when starting a new game
     setHasWinner(false);
   }, []);
+
+  const handleGameEnd = (winner: 'x' | 'o' | 'draw' | null) => {
+    if (winner === 'x') {
+      setStats(prev => ({ ...prev, playerXWins: prev.playerXWins + 1 }));
+      setHasWinner(true);
+    } else if (winner === 'o') {
+      setStats(prev => ({ ...prev, playerOWins: prev.playerOWins + 1 }));
+      setHasWinner(true);
+    } else if (winner === 'draw') {
+      setStats(prev => ({ ...prev, draws: prev.draws + 1 }));
+    }
+  };
 
   return (
     <div className="min-h-screen flex flex-col">
@@ -34,8 +51,17 @@ const Game = () => {
           </h1>
           <p className="text-white/70 text-sm md:text-base">TRIO-STRIKE TACTICAL GRID SYSTEM</p>
         </header>
+
+        <GameStats {...stats} />
         
-        <CyberGridX onWin={() => setHasWinner(true)} />
+        <CyberGridX onWin={(winner) => handleGameEnd(winner)} />
+
+        <button
+          onClick={() => setIsMuted(!isMuted)}
+          className="fixed bottom-4 right-4 cyber-button"
+        >
+          {isMuted ? "🔇 UNMUTE" : "🔊 MUTE"}
+        </button>
       </main>
 
       <AudioManager isMuted={isMuted} isWinning={hasWinner} />
@@ -44,3 +70,4 @@ const Game = () => {
 };
 
 export default Game;
+
