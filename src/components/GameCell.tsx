@@ -1,5 +1,5 @@
 
-import { Square, Circle } from "lucide-react";
+import { Square, X } from "lucide-react";
 import { Cell, CellPosition, MoveHistory } from "../types/game";
 import { useEffect, useState } from "react";
 
@@ -38,23 +38,14 @@ const GameCell = ({ value, position, onCellClick, isWinningCell, moveHistory }: 
       onClick={() => onCellClick(position)}
     >
       <div className="multicolor-trail" />
-      {value === "x" && (
-        <Square 
+      {value && (
+        <X 
           size={36} 
-          className={`symbol player-x ${isAnimating ? 'symbol-fade-in' : ''} 
+          className={`symbol ${value === 'x' ? 'text-red-500' : 'text-cyan-400'} 
+            ${isAnimating ? 'symbol-fade-in' : ''} 
             ${isWinningCell ? 'animate-glitch' : ''} 
             ${isFirstMove(value) ? 'animate-pulse opacity-100' : ''}`}
           strokeWidth={3}
-        />
-      )}
-      {value === "o" && (
-        <Circle 
-          size={30} 
-          className={`symbol player-o ${isAnimating ? 'symbol-fade-in' : ''} 
-            ${isWinningCell ? 'animate-glitch' : ''} 
-            ${isFirstMove(value) ? 'animate-pulse opacity-100' : ''}`}
-          strokeWidth={3}
-          fill="currentColor"
         />
       )}
     </div>
