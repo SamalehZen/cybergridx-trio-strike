@@ -14,21 +14,30 @@ const AudioManager = ({ isMuted, isWinning }: AudioManagerProps) => {
     const bgAudio = backgroundRef.current;
     if (bgAudio) {
       bgAudio.volume = 0.3;
-      try {
-        if (!isMuted) {
-          const playPromise = bgAudio.play();
-          if (playPromise !== undefined) {
-            playPromise.catch(() => {
-              // Auto-play was prevented, we'll need user interaction
-              console.log("Auto-play prevented. Waiting for user interaction.");
-            });
-          }
-        } else {
-          bgAudio.pause();
+      
+      // This ensures audio playback is attempted after user interaction
+      const handleUserInteraction = () => {
+        if (!isMuted && bgAudio.paused) {
+          bgAudio.play().catch(error => {
+            console.log("Background audio playback error:", error);
+          });
         }
-      } catch (error) {
-        console.error("Audio playback error:", error);
+        
+        document.removeEventListener('click', handleUserInteraction);
+        document.removeEventListener('keydown', handleUserInteraction);
+      };
+      
+      document.addEventListener('click', handleUserInteraction);
+      document.addEventListener('keydown', handleUserInteraction);
+      
+      if (isMuted && !bgAudio.paused) {
+        bgAudio.pause();
       }
+      
+      return () => {
+        document.removeEventListener('click', handleUserInteraction);
+        document.removeEventListener('keydown', handleUserInteraction);
+      };
     }
   }, [isMuted]);
 
@@ -36,16 +45,11 @@ const AudioManager = ({ isMuted, isWinning }: AudioManagerProps) => {
     const victoryAudio = victoryRef.current;
     if (victoryAudio && isWinning && !isMuted) {
       victoryAudio.volume = 0.5;
-      try {
-        const playPromise = victoryAudio.play();
-        if (playPromise !== undefined) {
-          playPromise.catch(() => {
-            console.log("Victory sound auto-play prevented.");
-          });
-        }
-      } catch (error) {
-        console.error("Victory sound playback error:", error);
-      }
+      victoryAudio.currentTime = 0; // Reset to start
+      
+      victoryAudio.play().catch(error => {
+        console.log("Victory sound playback error:", error);
+      });
     }
   }, [isWinning, isMuted]);
 
@@ -55,10 +59,12 @@ const AudioManager = ({ isMuted, isWinning }: AudioManagerProps) => {
         ref={backgroundRef}
         src="/background-music.mp3"
         loop
+        preload="auto"
       />
       <audio
         ref={victoryRef}
         src="/victory-sound.mp3"
+        preload="auto"
       />
     </>
   );

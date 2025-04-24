@@ -23,8 +23,8 @@ const GameBoard = ({ gameState, onCellClick }: GameBoardProps) => {
     const end = winLine[winLine.length - 1];
     const baseStyle = {
       position: 'absolute' as const,
-      background: 'linear-gradient(90deg, #9b87f5, #33C3F0)',
-      boxShadow: '0 0 15px rgba(155, 135, 245, 0.6)',
+      background: 'linear-gradient(90deg, #ff719A, #33C3F0)',
+      boxShadow: '0 0 20px rgba(155, 135, 245, 0.8)',
       zIndex: 10,
       borderRadius: '4px',
     };
