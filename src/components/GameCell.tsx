@@ -1,5 +1,5 @@
 
-import { X } from "lucide-react";
+import { Circle, X } from "lucide-react";
 import { Cell, CellPosition, MoveHistory } from "../types/game";
 import { useEffect, useState } from "react";
 
@@ -32,32 +32,26 @@ const GameCell = ({ value, position, onCellClick, isWinningCell, moveHistory }: 
     return firstMove.position.row === position.row && firstMove.position.col === position.col;
   };
 
-  // Determine styling based on player
-  const getSymbolStyle = () => {
-    if (!value) return "";
-    
-    if (value === 'x') {
-      return "text-red-500 rotate-0";
-    } else {
-      return "text-cyber-cyan rotate-45";
-    }
-  };
-
   return (
     <div 
-      className={`cyber-grid-cell w-full h-full ${isWinningCell ? 'bg-cyber-vivid/30 win-animation' : ''}`} 
+      className={`cyber-grid-cell w-full h-full ${isWinningCell ? 'bg-cyber-black/30 win-animation' : ''}`} 
       onClick={() => onCellClick(position)}
     >
-      <div className="multicolor-trail animate-pulse-glow"></div>
+      <div className="glow-effect"></div>
       {value && (
-        <X 
-          size={36} 
-          className={`symbol ${getSymbolStyle()} 
-            ${isAnimating ? 'symbol-fade-in' : ''} 
-            ${isWinningCell ? 'animate-glitch' : ''} 
-            ${isFirstMove(value) ? 'animate-pulse opacity-100' : ''}`}
-          strokeWidth={value === 'x' ? 3 : 2}
-        />
+        <div className={`symbol-container ${isAnimating ? 'symbol-fade-in' : ''} ${isWinningCell ? 'animate-glitch' : ''}`}>
+          {value === 'x' ? (
+            <X 
+              size={40} 
+              className={`symbol x-symbol ${isFirstMove(value) ? 'animate-pulse opacity-100' : ''}`}
+            />
+          ) : (
+            <Circle 
+              size={40} 
+              className={`symbol o-symbol ${isFirstMove(value) ? 'animate-pulse opacity-100' : ''}`}
+            />
+          )}
+        </div>
       )}
     </div>
   );

@@ -23,7 +23,7 @@ const GameBoard = ({ gameState, onCellClick }: GameBoardProps) => {
     const end = winLine[winLine.length - 1];
     const baseStyle = {
       position: 'absolute' as const,
-      background: 'linear-gradient(90deg, #ff719A, #33C3F0)',
+      background: 'linear-gradient(90deg, rgba(168, 85, 247, 0.8), rgba(34, 211, 238, 0.8))',
       boxShadow: '0 0 20px rgba(155, 135, 245, 0.8)',
       zIndex: 10,
       borderRadius: '4px',
@@ -77,10 +77,10 @@ const GameBoard = ({ gameState, onCellClick }: GameBoardProps) => {
   };
 
   return (
-    <div className="cyber-border relative w-full max-w-md aspect-square mx-auto">
+    <div className="cyber-border relative w-full max-w-md aspect-square mx-auto bg-black/50 p-2">
       {winLine && <div style={getWinLineStyle()} />}
       
-      <div className="grid grid-cols-3 grid-rows-3 gap-px w-full h-full bg-cyber-primary/30 p-px">
+      <div className="grid grid-cols-3 grid-rows-3 gap-3 w-full h-full">
         {board.map((row, rowIndex) =>
           row.map((cell, colIndex) => (
             <GameCell
@@ -93,14 +93,6 @@ const GameBoard = ({ gameState, onCellClick }: GameBoardProps) => {
             />
           ))
         )}
-      </div>
-      
-      <div className="absolute inset-0 pointer-events-none">
-        <div className="w-full h-full grid grid-cols-3 grid-rows-3">
-          {Array.from({ length: 9 }).map((_, i) => (
-            <div key={i} className="border border-cyber-primary/10" />
-          ))}
-        </div>
       </div>
     </div>
   );

@@ -32,6 +32,10 @@ const AudioManager = ({ isMuted, isWinning }: AudioManagerProps) => {
       
       if (isMuted && !bgAudio.paused) {
         bgAudio.pause();
+      } else if (!isMuted && bgAudio.paused) {
+        bgAudio.play().catch(error => {
+          console.log("Background audio playback error:", error);
+        });
       }
       
       return () => {
