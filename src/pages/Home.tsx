@@ -47,6 +47,13 @@ const Home = () => {
             <span>START GAME</span>
           </button>
           
+          <button
+            onClick={() => {}}
+            className="cyber-button group flex items-center justify-center gap-3 py-4 text-lg"
+          >
+            <span>ADD NEW THEME</span>
+          </button>
+          
           <button 
             onClick={() => navigate("/rules")}
             className="cyber-button group flex items-center justify-center gap-3 py-4 text-lg"

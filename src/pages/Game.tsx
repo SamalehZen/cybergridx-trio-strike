@@ -5,7 +5,6 @@ import AudioManager from "../components/AudioManager";
 import GameStats from "../components/GameStats";
 import { useState, useEffect } from "react";
 import GameBoard from "../components/GameBoard";
-import ThemeSwitcher from "../components/ThemeSwitcher";
 import CyberGridX from "../components/CyberGridX";
 
 const Game = () => {
@@ -46,7 +45,9 @@ const Game = () => {
 
       <main className="flex-1 container px-4 py-8">
         <header className="flex justify-between items-center mb-8">
-        <ThemeSwitcher />
+          <div className="flex gap-4 items-center">
+            <ThemeSwitcher />
+          </div>
         <button
           onClick={() => navigate("/")}
           className="cyber-button mb-8 flex items-center gap-2"
