@@ -2,14 +2,14 @@
 @tailwind components;
 @tailwind utilities;
 
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700&family=Rajdhani:wght@400;500;700&display=swap');
+
 @layer base {
-  
+
   /* Default Theme */
   .default {
-    --background: 0 0% 100%;
-    --foreground: 222.2 84% 4.9%;
-
-    --card: 0 0% 100%;
+    --background-default: 0 0% 100%;
+    --foreground-default: 222.2 84% 4.9%;
     --card-foreground: 222.2 84% 4.9%;
 
     --popover: 0 0% 100%;
@@ -35,41 +35,36 @@
     --ring: 222.2 84% 4.9%;
 
     --radius: 0.5rem;
+
+    --background: var(--background-default);
+    --foreground: var(--foreground-default);
+    --primary: var(--primary);
+    --secondary: var(--secondary);
+    --accent: var(--accent);
+    --muted: var(--muted);
+
+    color: var(--foreground);
   }
 
+  /* Neon Theme */
+  .neon {
+    --background-neon: #0a0416;
+    --foreground-neon: #f5f5f5;
+    --primary-neon: #ff00ff;
+    --secondary-neon: #00ffff;
+    --accent-neon: #00ff00;
+    --muted-neon: #2e2e2e;
+    --neon-border : #ff00ff;
+    --neon-ring : #00ffff;
 
-
-
-  :root {
-    --background: 0 0% 100%;
-    --foreground: 222.2 84% 4.9%;
-
-    --card: 0 0% 100%;
-    --card-foreground: 222.2 84% 4.9%;
-
-    --popover: 0 0% 100%;
-    --popover-foreground: 222.2 84% 4.9%;
-
-    --primary: 222.2 47.4% 11.2%;
-    --primary-foreground: 210 40% 98%;
-
-    --secondary: 210 40% 96.1%;
-    --secondary-foreground: 222.2 47.4% 11.2%;
-
-    --muted: 210 40% 96.1%;
-    --muted-foreground: 215.4 16.3% 46.9%;
-
-    --accent: 210 40% 96.1%;
-    --accent-foreground: 222.2 47.4% 11.2%;
-
-    --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 210 40% 98%;
-
-    --border: 214.3 31.8% 91.4%;
-    --input: 214.3 31.8% 91.4%;
-    --ring: 222.2 84% 4.9%;
-
-    --radius: 0.5rem;
+    --background: var(--background-neon);
+    --foreground: var(--foreground-neon);
+    --primary: var(--primary-neon);
+    --secondary: var(--secondary-neon);
+    --accent: var(--accent-neon);
+    --muted: var(--muted-neon);
+    --border: var(--neon-border);
+    --ring: var(--neon-ring);
 
     --sidebar-background: 0 0% 98%;
     --sidebar-foreground: 240 5.3% 26.1%;
@@ -80,32 +75,22 @@
     --sidebar-border: 220 13% 91%;
     --sidebar-ring: 217.2 91.2% 59.8%;
   }
-}
-/* Neon Theme */
-.neon {
-    --background-neon: #0a0416;
-    --foreground-neon: #f5f5f5;
-    --primary-neon: #ff00ff;
-    --secondary-neon: #00ffff;
-    --accent-neon: #00ff00;
-    --muted-neon: #2e2e2e;
 
-    --background: var(--background-neon);
-    --foreground: var(--foreground-neon);
-    --primary: var(--primary-neon);
-    --secondary: var(--secondary-neon);
-    --accent: var(--accent-neon);
-    --muted: var(--muted-neon);
-
-    color: var(--foreground-neon);
-}
-
-/* Cyber Theme */
-.cyber {
-  --background-cyber: #0a0a0a;
-  --foreground-cyber: #ffffff;
-  --primary-cyber: #9b87f5;
+  /* Cyber Theme */
+  .cyber {
+  --background-cyber: #08090f;
+  --foreground-cyber: #e0e0e0;
+  --primary-cyber: #9b87f5; 
+  --primary-foreground: #f5f5f5;
   --secondary-cyber: #00eaff;
+  --secondary-foreground: #08090f;
+  --border-cyber: #9b87f5;
+  --input-cyber: #0a0a0a;
+  --ring-cyber: #00eaff;
+  --cyber-card-background: rgba(8, 9, 15, 0.8);
+  --cyber-card-border: rgba(155, 135, 245, 0.3);
+  --cyber-card-shadow: 0 0 20px rgba(155, 135, 245, 0.15);
+  --cyber-card-glow: inset 0 0 15px rgba(155, 135, 245, 0.3);
   --accent-cyber: #00ff00;
   --muted-cyber: #2e2e2e;
 
@@ -116,32 +101,40 @@
   --accent: var(--accent-cyber);
   --muted: var(--muted-cyber);
 
-  color: var(--foreground-cyber);
-}
+  --border: var(--border-cyber);
+  --ring: var(--ring-cyber);
+  --input: var(--input-cyber);
 
-.bg-cyber-dark{
-  background-color: var(--background-cyber);
-}
+  color: var(--foreground);
 
+  --card: var(--cyber-card-background);
+  --card-foreground: var(--foreground);
+  }
+}
 
 @layer base {
+
   * {
     @apply border-border;
   }
 
   body {
-    @apply bg-cyber-dark text-white default;
+    @apply text-white default;
     font-family: 'Orbitron', 'Rajdhani', sans-serif;
     background-image: 
       radial-gradient(circle at 50% 50%, rgba(155, 135, 245, 0.45) 0%, rgba(26, 31, 44, 0) 55%),
       radial-gradient(circle at 30% 40%, rgba(0, 234, 255, 0.35) 0%, rgba(26, 31, 44, 0) 45%),
       linear-gradient(180deg, rgba(22, 25, 37, 1) 0%, rgba(8, 9, 15, 1) 100%);
-      
-
     background-attachment: fixed;
   }
 
-  .cyber-border {
+  .default .cyber-border, .neon .cyber-border{
+    @apply relative overflow-hidden rounded-md;
+    border: 1px solid rgba(155, 135, 245, 0.3);
+    box-shadow: 0 0 20px rgba(155, 135, 245, 0.15);
+  }
+
+  .cyber .cyber-border{
     @apply relative overflow-hidden rounded-md;
     border: 1px solid rgba(155, 135, 245, 0.3);
     box-shadow: 0 0 20px rgba(155, 135, 245, 0.15);
@@ -153,10 +146,19 @@
     box-shadow: inset 0 0 15px rgba(155, 135, 245, 0.3);
   }
 
-  .cyber-grid-cell {
+  .default .cyber-grid-cell, .neon .cyber-grid-cell {
     @apply cyber-border bg-cyber-black/80 flex items-center justify-center cursor-pointer transition-all duration-300 relative overflow-hidden;
     border-radius: 8px;
   }
+
+    .cyber .cyber-grid-cell {
+    @apply relative overflow-hidden rounded-md bg-cyber-card-background flex items-center justify-center cursor-pointer transition-all duration-300;
+    border: 1px solid var(--border);
+    box-shadow: 0 0 20px rgba(155, 135, 245, 0.15);
+    border-radius: 8px;
+  }
+
+
   
   .cyber-grid-cell::before {
     content: '';
@@ -169,12 +171,12 @@
   }
   
   .glow-effect {
-    @apply absolute inset-0 opacity-0 transition-opacity duration-300;
+    @apply absolute inset-0 opacity-0 transition-opacity duration-300 pointer-events-none;
     background: radial-gradient(circle at center, rgba(155, 135, 245, 0.25) 0%, transparent 70%);
   }
   
   .cyber-grid-cell:hover .glow-effect {
-    @apply opacity-100;
+    @apply opacity-70;
   }
 
   .symbol-container {
@@ -186,15 +188,22 @@
     @apply scale-110;
   }
   
-  .x-symbol {
-    @apply text-purple-400;
+  .default .x-symbol, .neon .x-symbol{
+    @apply text-purple-400;    
     filter: drop-shadow(0 0 10px rgba(168, 85, 247, 0.8));
     stroke-width: 3;
   }
   
-  .o-symbol {
-    @apply text-cyan-400;
+  .cyber .x-symbol{
+    @apply text-primary-cyber;    
+    filter: drop-shadow(0 0 10px rgba(168, 85, 247, 0.8));
+    stroke-width: 3;
+  }
+
+  .default .o-symbol, .neon .o-symbol {
+    @apply text-cyan-400;    
     filter: drop-shadow(0 0 10px rgba(34, 211, 238, 0.8));
+
     stroke-width: 2.5;
   }
   
@@ -202,15 +211,24 @@
     animation: win-pulse 2s infinite;
   }
   
-  .cyber-button {
-    @apply cyber-border bg-cyber-black/70 px-6 py-3 text-white font-bold uppercase tracking-wider transition-all duration-300 hover:bg-cyber-primary/20;
+  .default .cyber-button, .neon .cyber-button{
+    @apply cyber-border bg-cyber-black/70 px-6 py-3 text-white font-bold uppercase tracking-wider transition-all duration-300 hover:bg-cyber-primary/20 ;
     text-shadow: 0 0 5px rgba(155, 135, 245, 0.8);
   }
+
+    .cyber .cyber-button{
+    @apply cyber-border px-6 py-3 font-bold uppercase tracking-wider transition-all duration-300;
+    text-shadow: 0 0 5px rgba(155, 135, 245, 0.8);
+    background-color: var(--card);
+  }
   
-  .cyber-button:hover {
+  .default .cyber-button:hover, .neon .cyber-button:hover {
     @apply shadow-lg;
     text-shadow: 0 0 8px rgba(155, 135, 245, 1);
     box-shadow: 0 0 25px rgba(155, 135, 245, 0.2);
+  }
+
+    .cyber .cyber-button:hover {
   }
 
   .symbol-fade-in {
@@ -225,13 +243,13 @@
   }
 
   @keyframes gradient-shift {
-    0% { background-position: 0% 50%; }
-    50% { background-position: 100% 50%; }
-    100% { background-position: 0% 50%; }
+    0% { background-position: 0% 50%;}
+    50% { background-position: 100% 50%;}
+    100% { background-position: 0% 50%;}
   }
   
   @keyframes win-pulse {
-    0%, 100% {
+    0%, 100% {    
       transform: scale(1);
       opacity: 1;
       box-shadow: 0 0 20px rgba(155, 135, 245, 0.5);
@@ -264,8 +282,8 @@
   }
   
   @keyframes fadeIn {
-    from { opacity: 0; transform: scale(0.9); }
-    to { opacity: 1; transform: scale(1); }
+    from { opacity: 0; transform: scale(0.9);  }
+    to { opacity: 1; transform: scale(1);  }
   }
   
   @keyframes scanline {

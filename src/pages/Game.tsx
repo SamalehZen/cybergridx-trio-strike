@@ -4,6 +4,9 @@ import { ArrowLeft } from "lucide-react";
 import AudioManager from "../components/AudioManager";
 import GameStats from "../components/GameStats";
 import { useState, useEffect } from "react";
+import GameBoard from "../components/GameBoard";
+import ThemeSwitcher from "../components/ThemeSwitcher";
+import CyberGridX from "../components/CyberGridX";
 
 const Game = () => {
   const navigate = useNavigate();
@@ -63,7 +66,9 @@ const Game = () => {
           </p>
         </header>
 
-        <GameStats {...stats} />
+        <ThemeSwitcher />
+
+          <GameStats {...stats} />
         
         <CyberGridX onWin={(winner) => handleGameEnd(winner)} />
 
