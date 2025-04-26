@@ -5,7 +5,7 @@ import { Play, Info, Volume2, VolumeX } from "lucide-react";
 
 const Home = () => {
   const [isMuted, setIsMuted] = useState(true);
-  const [selectedTheme, setSelectedTheme] = useState<"default" | "neon" | "cyber">("default");
+  const [selectedTheme, setSelectedTheme] = useState<"default" | "neon" | "cyber" | "matrix">("default");
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -14,7 +14,7 @@ const Home = () => {
     body.classList.add(selectedTheme);
   }, [selectedTheme]);
 
-  const handleThemeSelect = (theme: "default" | "neon" | "cyber") => {
+  const handleThemeSelect = (theme: "default" | "neon" | "cyber" | "matrix") => {
     setSelectedTheme(theme);
   };
 
@@ -33,9 +33,7 @@ const Home = () => {
         </header>
 
         <div className="flex flex-col gap-4 mb-8">
-          <button onClick={() => handleThemeSelect("default")} className="cyber-button group flex items-center justify-center gap-3 py-4 text-lg">Default</button>
-          <button onClick={() => handleThemeSelect("neon")} className="cyber-button group flex items-center justify-center gap-3 py-4 text-lg">Neon</button>
-          <button onClick={() => handleThemeSelect("cyber")} className="cyber-button group flex items-center justify-center gap-3 py-4 text-lg">Cyber</button>
+          <button onClick={() => handleThemeSelect("matrix")} className="cyber-button group flex items-center justify-center gap-3 py-4 text-lg">New Theme</button>
         </div>
 
         <div className="flex flex-col gap-4 w-full max-w-md">
@@ -46,12 +44,19 @@ const Home = () => {
             <Play className="w-5 h-5" />
             <span>START GAME</span>
           </button>
-          
+
+          <div className="flex flex-col gap-4 mb-8">
+            <button onClick={() => handleThemeSelect("default")} className="cyber-button group flex items-center justify-center gap-3 py-4 text-lg">Default</button>
+            <button onClick={() => handleThemeSelect("neon")} className="cyber-button group flex items-center justify-center gap-3 py-4 text-lg">Neon</button>
+            <button onClick={() => handleThemeSelect("cyber")} className="cyber-button group flex items-center justify-center gap-3 py-4 text-lg">Cyber</button>
+          </div>
+
           <button
-            onClick={() => {}}
+            onClick={() => navigate("/rules")}
             className="cyber-button group flex items-center justify-center gap-3 py-4 text-lg"
           >
-            <span>ADD NEW THEME</span>
+            <Info className="w-5 h-5" />
+            <span>RULES</span>
           </button>
           
           <button 
@@ -80,6 +85,7 @@ const Home = () => {
           </button>
         </div>
       </main>
+
     </div>
   );
 };

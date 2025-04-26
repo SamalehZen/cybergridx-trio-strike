@@ -13,6 +13,7 @@
     --card-foreground: 222.2 84% 4.9%;
 
     --popover: 0 0% 100%;
+    --card-background : white;
     --popover-foreground: 222.2 84% 4.9%;
 
     --primary: 222.2 47.4% 11.2%;
@@ -35,6 +36,7 @@
     --ring: 222.2 84% 4.9%;
 
     --radius: 0.5rem;
+    --muted-background : #f0f0f0;
 
     --background: var(--background-default);
     --foreground: var(--foreground-default);
@@ -51,13 +53,20 @@
     --background-neon: #0a0416;
     --foreground-neon: #f5f5f5;
     --primary-neon: #ff00ff;
-    --secondary-neon: #00ffff;
-    --accent-neon: #00ff00;
+    --secondary-neon: #00ffff;    
     --muted-neon: #2e2e2e;
     --neon-border : #ff00ff;
     --neon-ring : #00ffff;
+    --accent-neon: #00ff00;
 
-    --background: var(--background-neon);
+    --card-neon-background: rgba(10, 4, 22, 0.8);
+    --card-neon-border: rgba(255, 0, 255, 0.3);
+    --card-neon-shadow: 0 0 20px rgba(255, 0, 255, 0.15);
+    --card-neon-glow: inset 0 0 15px rgba(255, 0, 255, 0.3);
+    --muted-neon-background: #000000;
+
+
+        --background: var(--background-neon);
     --foreground: var(--foreground-neon);
     --primary: var(--primary-neon);
     --secondary: var(--secondary-neon);
@@ -66,18 +75,11 @@
     --border: var(--neon-border);
     --ring: var(--neon-ring);
 
-    --sidebar-background: 0 0% 98%;
-    --sidebar-foreground: 240 5.3% 26.1%;
-    --sidebar-primary: 240 5.9% 10%;
-    --sidebar-primary-foreground: 0 0% 98%;
-    --sidebar-accent: 240 4.8% 95.9%;
-    --sidebar-accent-foreground: 240 5.9% 10%;
-    --sidebar-border: 220 13% 91%;
-    --sidebar-ring: 217.2 91.2% 59.8%;
+    --card: var(--card-neon-background);
+    --card-foreground: var(--foreground);
   }
 
   /* Cyber Theme */
-  .cyber {
   --background-cyber: #08090f;
   --foreground-cyber: #e0e0e0;
   --primary-cyber: #9b87f5; 
@@ -93,6 +95,10 @@
   --cyber-card-glow: inset 0 0 15px rgba(155, 135, 245, 0.3);
   --accent-cyber: #00ff00;
   --muted-cyber: #2e2e2e;
+
+  .cyber {
+
+  --muted-background : #0a0a0a;
 
   --background: var(--background-cyber);
   --foreground: var(--foreground-cyber);
@@ -110,6 +116,26 @@
   --card: var(--cyber-card-background);
   --card-foreground: var(--foreground);
   }
+
+    /* Matrix Theme */
+  .matrix {
+    --background-matrix: #000000;
+    --foreground-matrix: #00ff00;
+    --primary-matrix: #00ff00;
+    --secondary-matrix: #000000;
+    --accent-matrix: #00ff00;
+    --muted-matrix: #003300;
+    --muted-background: #003300;
+    --matrix-border : #00ff00;
+
+    --background: var(--background-matrix);
+    --foreground: var(--foreground-matrix);
+    --primary: var(--primary-matrix);
+    --secondary: var(--secondary-matrix);
+    --accent: var(--accent-matrix);
+    --muted: var(--muted-matrix);
+    --border: var(--matrix-border);
+  }
 }
 
 @layer base {
@@ -119,7 +145,7 @@
   }
 
   body {
-    @apply text-white default;
+    @apply text-white;
     font-family: 'Orbitron', 'Rajdhani', sans-serif;
     background-image: 
       radial-gradient(circle at 50% 50%, rgba(155, 135, 245, 0.45) 0%, rgba(26, 31, 44, 0) 55%),
@@ -128,7 +154,7 @@
     background-attachment: fixed;
   }
 
-  .default .cyber-border, .neon .cyber-border{
+  .default .cyber-border, .neon .cyber-border, .matrix .cyber-border{
     @apply relative overflow-hidden rounded-md;
     border: 1px solid rgba(155, 135, 245, 0.3);
     box-shadow: 0 0 20px rgba(155, 135, 245, 0.15);
@@ -146,7 +172,7 @@
     box-shadow: inset 0 0 15px rgba(155, 135, 245, 0.3);
   }
 
-  .default .cyber-grid-cell, .neon .cyber-grid-cell {
+  .default .cyber-grid-cell, .neon .cyber-grid-cell, .matrix .cyber-grid-cell {
     @apply cyber-border bg-cyber-black/80 flex items-center justify-center cursor-pointer transition-all duration-300 relative overflow-hidden;
     border-radius: 8px;
   }
@@ -188,7 +214,7 @@
     @apply scale-110;
   }
   
-  .default .x-symbol, .neon .x-symbol{
+  .default .x-symbol, .neon .x-symbol, .matrix .x-symbol{
     @apply text-purple-400;    
     filter: drop-shadow(0 0 10px rgba(168, 85, 247, 0.8));
     stroke-width: 3;
@@ -200,7 +226,7 @@
     stroke-width: 3;
   }
 
-  .default .o-symbol, .neon .o-symbol {
+  .default .o-symbol, .neon .o-symbol, .matrix .o-symbol {
     @apply text-cyan-400;    
     filter: drop-shadow(0 0 10px rgba(34, 211, 238, 0.8));
 
@@ -211,7 +237,7 @@
     animation: win-pulse 2s infinite;
   }
   
-  .default .cyber-button, .neon .cyber-button{
+  .default .cyber-button, .neon .cyber-button, .matrix .cyber-button{
     @apply cyber-border bg-cyber-black/70 px-6 py-3 text-white font-bold uppercase tracking-wider transition-all duration-300 hover:bg-cyber-primary/20 ;
     text-shadow: 0 0 5px rgba(155, 135, 245, 0.8);
   }
@@ -222,7 +248,7 @@
     background-color: var(--card);
   }
   
-  .default .cyber-button:hover, .neon .cyber-button:hover {
+  .default .cyber-button:hover, .neon .cyber-button:hover, .matrix .cyber-button:hover {
     @apply shadow-lg;
     text-shadow: 0 0 8px rgba(155, 135, 245, 1);
     box-shadow: 0 0 25px rgba(155, 135, 245, 0.2);
