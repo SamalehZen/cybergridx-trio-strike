@@ -2,6 +2,7 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { Play, Info, Volume2, VolumeX } from "lucide-react";
+import { HoverButton } from "@/components/ui/HoverButton";
 
 const Home = () => {
   const [isMuted, setIsMuted] = useState(true);
@@ -33,13 +34,12 @@ const Home = () => {
         </header>
 
         <div className="flex flex-col gap-4 mb-8">
-          <button onClick={() => handleThemeSelect("matrix")} className="cyber-button group flex items-center justify-center gap-3 py-4 text-lg">New Theme</button>
+          <HoverButton onClick={() => handleThemeSelect("matrix")}>New Theme</HoverButton>
         </div>
 
         <div className="flex flex-col gap-4 w-full max-w-md">
-          <button
+          <HoverButton
             onClick={() => navigate(`/game?theme=${selectedTheme}`)}
-            className="cyber-button group flex items-center justify-center gap-3 py-4 text-lg"
           >
             <Play className="w-5 h-5" />
             <span>START GAME</span>

@@ -1,11 +1,13 @@
 
-import { useNavigate, useLocation } from "react-router-dom";
-import { ArrowLeft } from "lucide-react";
-import AudioManager from "../components/AudioManager";
-import GameStats from "../components/GameStats";
-import { useState, useEffect } from "react";
-import GameBoard from "../components/GameBoard";
-import CyberGridX from "../components/CyberGridX";
+import { useNavigate, useLocation } from "react-router-dom"
+import { ArrowLeft } from "lucide-react"
+import AudioManager from "../components/AudioManager"
+import GameStats from "../components/GameStats"
+import { useState, useEffect } from "react"
+import GameBoard from "../components/GameBoard"
+import CyberGridX from "../components/CyberGridX"
+import { HoverButton } from "@/components/ui/HoverButton"
+import ThemeSwitcher from "@/components/theme-switcher"
 
 const Game = () => {
   const navigate = useNavigate();
@@ -44,46 +46,46 @@ const Game = () => {
       <div className="scanline"></div>
 
       <main className="flex-1 container px-4 py-8">
-        <header className="flex justify-between items-center mb-8">
-          <div className="flex gap-4 items-center">
-            <ThemeSwitcher />
-          </div>
-        <button
-          onClick={() => navigate("/")}
-          className="cyber-button mb-8 flex items-center gap-2"
-        >
-          <ArrowLeft className="w-4 h-4" />
-          <span>BACK TO MENU</span>
-        </button>
-        <div className="text-center">
-          <h1
-            className={`text-4xl md:text-6xl font-bold text-transparent bg-clip-text ${
-              selectedTheme === "cyber" ? "bg-gradient-to-r from-cyber-cyan to-cyber-primary" : ""
-            } mb-2`}
+        <header className="flex justify-between items-center mb-8">          
+          <div className="flex gap-4 items-center"> <ThemeSwitcher /> </div>
+          
+          <HoverButton
+            onClick={() => navigate("/")}
+            className="cyber-button mb-8 flex items-center gap-2"
           >
-            TEAM ISKUDAYS
-          </h1>
-          <p className="text-white/70 text-sm md:text-base">
-            TRIO-STRIKE TACTICAL GRID SYSTEM
-          </p>
-        </div>
+            <ArrowLeft className="w-4 h-4" />
+            <span>BACK TO MENU</span>
+          </HoverButton>
 
+          <div className="text-center">
+            <h1
+              className={`text-4xl md:text-6xl font-bold text-transparent bg-clip-text ${
+                selectedTheme === "cyber"
+                  ? "bg-gradient-to-r from-cyber-cyan to-cyber-primary"
+                  : ""
+              } mb-2`}
+            >
+              TEAM ISKUDAYS
+            </h1>
+            <p className="text-white/70 text-sm md:text-base">
+              TRIO-STRIKE TACTICAL GRID SYSTEM
+            </p>
+          </div>
         </header>
 
-          <GameStats {...stats} />
-        
+        <GameStats {...stats} />
+
         <CyberGridX onWin={(winner) => handleGameEnd(winner)} />
 
-        <button
-          onClick={() => setIsMuted(!isMuted)}
-          className="fixed bottom-4 right-4 cyber-button"
-        >
-          {isMuted ? "🔇 UNMUTE" : "🔊 MUTE"}
-        </button>
+        <HoverButton
+            onClick={() => setIsMuted(!isMuted)}
+            className="fixed bottom-4 right-4 cyber-button"
+          >
+            {isMuted ? "🔇 UNMUTE" : "🔊 MUTE"}
+          </HoverButton>
       </main>
 
       <AudioManager isMuted={isMuted} isWinning={hasWinner} />
     </div>
   );
 };
-
