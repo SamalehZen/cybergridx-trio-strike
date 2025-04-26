@@ -1,27 +1,12 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 
-const ThemeSwitcher: React.FC = () => {
-  const [theme, setTheme] = useState<'default' | 'neon'>('default');
+interface ThemeSwitcherProps {
+  theme: 'default' | 'neon' | 'cyber';
+  onThemeChange: (theme: 'default' | 'neon' | 'cyber') => void;
+}
 
-  useEffect(() => {
-    const body = document.body;
-    if (theme === 'neon') {
-      body.classList.add('neon');
-      body.classList.remove('default');
-    } else {
-      body.classList.add('default');
-      body.classList.remove('neon');
-    }
-
-    body.style.transition = 'background-color 0.5s ease, color 0.5s ease';
-    return () => {
-      body.style.transition = '';
-    };
-  }, [theme]);
-
-  const toggleTheme = () => {
-    setTheme((prevTheme) => (prevTheme === 'default' ? 'neon' : 'default'));
-  };
+const ThemeSwitcher: React.FC<ThemeSwitcherProps> = ({ theme, onThemeChange }) => {
+  const toggleTheme = () => onThemeChange(theme === 'default' ? 'neon' : theme === 'neon' ? 'cyber' : 'default');
 
   return (
     <button

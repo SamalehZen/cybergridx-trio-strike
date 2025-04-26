@@ -100,6 +100,29 @@
     color: var(--foreground-neon);
 }
 
+/* Cyber Theme */
+.cyber {
+  --background-cyber: #0a0a0a;
+  --foreground-cyber: #ffffff;
+  --primary-cyber: #9b87f5;
+  --secondary-cyber: #00eaff;
+  --accent-cyber: #00ff00;
+  --muted-cyber: #2e2e2e;
+
+  --background: var(--background-cyber);
+  --foreground: var(--foreground-cyber);
+  --primary: var(--primary-cyber);
+  --secondary: var(--secondary-cyber);
+  --accent: var(--accent-cyber);
+  --muted: var(--muted-cyber);
+
+  color: var(--foreground-cyber);
+}
+
+.bg-cyber-dark{
+  background-color: var(--background-cyber);
+}
+
 
 @layer base {
   * {
