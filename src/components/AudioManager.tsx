@@ -11,38 +11,43 @@ const AudioManager = ({ isMuted, isWinning }: AudioManagerProps) => {
   const victoryRef = useRef<HTMLAudioElement>(null);
 
   useEffect(() => {
-    const bgAudio = backgroundRef.current;
-    if (bgAudio) {
-      bgAudio.volume = 0.3;
-      
-      // This ensures audio playback is attempted after user interaction
-      const handleUserInteraction = () => {
-        if (!isMuted && bgAudio.paused) {
-          bgAudio.play().catch(error => {
-            console.log("Background audio playback error:", error);
-          });
-        }
-        
-        document.removeEventListener('click', handleUserInteraction);
-        document.removeEventListener('keydown', handleUserInteraction);
-      };
-      
-      document.addEventListener('click', handleUserInteraction);
-      document.addEventListener('keydown', handleUserInteraction);
-      
-      if (isMuted && !bgAudio.paused) {
-        bgAudio.pause();
-      } else if (!isMuted && bgAudio.paused) {
-        bgAudio.play().catch(error => {
-          console.log("Background audio playback error:", error);
-        });
+    const backgroundAudio = backgroundRef.current;
+    if (!backgroundAudio) return;
+
+    backgroundAudio.volume = 0.3;
+
+    // Function to handle user interaction and play the audio
+    const playAudioAfterInteraction = () => {
+      if (!isMuted && backgroundAudio.paused) {
+        backgroundAudio
+          .play()
+          .catch((error) =>
+            console.error("Background audio playback error:", error),
+          );
       }
-      
-      return () => {
-        document.removeEventListener('click', handleUserInteraction);
-        document.removeEventListener('keydown', handleUserInteraction);
-      };
+      // Remove the event listeners after they've been used
+      document.removeEventListener("click", playAudioAfterInteraction);
+      document.removeEventListener("keydown", playAudioAfterInteraction);
+    };
+
+    // Add event listeners to capture user interaction
+    document.addEventListener("click", playAudioAfterInteraction);
+    document.addEventListener("keydown", playAudioAfterInteraction);
+
+    // Handle muting and unmuting
+    if (isMuted && !backgroundAudio.paused) {
+      backgroundAudio.pause();
+    } else if (!isMuted && backgroundAudio.paused) {
+      backgroundAudio.play().catch((error) => {
+        console.log("Background audio playback error:", error);
+      });
     }
+
+    // Cleanup function to remove the event listeners on component unmount
+    return () => {
+      document.removeEventListener("click", playAudioAfterInteraction);
+      document.removeEventListener("keydown", playAudioAfterInteraction);
+    };
   }, [isMuted]);
 
   useEffect(() => {
