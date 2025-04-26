@@ -3,6 +3,43 @@
 @tailwind utilities;
 
 @layer base {
+  
+  /* Default Theme */
+  .default {
+    --background: 0 0% 100%;
+    --foreground: 222.2 84% 4.9%;
+
+    --card: 0 0% 100%;
+    --card-foreground: 222.2 84% 4.9%;
+
+    --popover: 0 0% 100%;
+    --popover-foreground: 222.2 84% 4.9%;
+
+    --primary: 222.2 47.4% 11.2%;
+    --primary-foreground: 210 40% 98%;
+
+    --secondary: 210 40% 96.1%;
+    --secondary-foreground: 222.2 47.4% 11.2%;
+
+    --muted: 210 40% 96.1%;
+    --muted-foreground: 215.4 16.3% 46.9%;
+
+    --accent: 210 40% 96.1%;
+    --accent-foreground: 222.2 47.4% 11.2%;
+
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 210 40% 98%;
+
+    --border: 214.3 31.8% 91.4%;
+    --input: 214.3 31.8% 91.4%;
+    --ring: 222.2 84% 4.9%;
+
+    --radius: 0.5rem;
+  }
+
+
+
+
   :root {
     --background: 0 0% 100%;
     --foreground: 222.2 84% 4.9%;
@@ -44,6 +81,25 @@
     --sidebar-ring: 217.2 91.2% 59.8%;
   }
 }
+/* Neon Theme */
+.neon {
+    --background-neon: #0a0416;
+    --foreground-neon: #f5f5f5;
+    --primary-neon: #ff00ff;
+    --secondary-neon: #00ffff;
+    --accent-neon: #00ff00;
+    --muted-neon: #2e2e2e;
+
+    --background: var(--background-neon);
+    --foreground: var(--foreground-neon);
+    --primary: var(--primary-neon);
+    --secondary: var(--secondary-neon);
+    --accent: var(--accent-neon);
+    --muted: var(--muted-neon);
+
+    color: var(--foreground-neon);
+}
+
 
 @layer base {
   * {
@@ -51,12 +107,14 @@
   }
 
   body {
-    @apply bg-cyber-dark text-white;
+    @apply bg-cyber-dark text-white default;
     font-family: 'Orbitron', 'Rajdhani', sans-serif;
     background-image: 
       radial-gradient(circle at 50% 50%, rgba(155, 135, 245, 0.45) 0%, rgba(26, 31, 44, 0) 55%),
       radial-gradient(circle at 30% 40%, rgba(0, 234, 255, 0.35) 0%, rgba(26, 31, 44, 0) 45%),
       linear-gradient(180deg, rgba(22, 25, 37, 1) 0%, rgba(8, 9, 15, 1) 100%);
+      
+
     background-attachment: fixed;
   }
 

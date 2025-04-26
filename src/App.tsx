@@ -7,6 +7,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Home from "./pages/Home";
 import Game from "./pages/Game";
 import Rules from "./pages/Rules";
+import ThemeSwitcher from "./components/ThemeSwitcher";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -15,6 +16,7 @@ const App = () => (
   <QueryClientProvider client={queryClient}>
     <TooltipProvider>
       <Toaster />
+      <ThemeSwitcher/>
       <Sonner />
       <BrowserRouter>
         <Routes>
