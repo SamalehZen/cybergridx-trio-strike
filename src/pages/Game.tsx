@@ -41,10 +41,12 @@ const Game = () => {
   }, [selectedTheme]);
 
   return (
-    <div className={`min-h-screen flex flex-col`}>
+    <div className={`min-h-screen flex flex-col `}>
       <div className="scanline"></div>
 
       <main className="flex-1 container px-4 py-8">
+        <header className="flex justify-between items-center mb-8">
+        <ThemeSwitcher />
         <button
           onClick={() => navigate("/")}
           className="cyber-button mb-8 flex items-center gap-2"
@@ -52,8 +54,7 @@ const Game = () => {
           <ArrowLeft className="w-4 h-4" />
           <span>BACK TO MENU</span>
         </button>
-
-        <header className="text-center mb-8 ">
+        <div className="text-center">
           <h1
             className={`text-4xl md:text-6xl font-bold text-transparent bg-clip-text ${
               selectedTheme === "cyber" ? "bg-gradient-to-r from-cyber-cyan to-cyber-primary" : ""
@@ -64,9 +65,9 @@ const Game = () => {
           <p className="text-white/70 text-sm md:text-base">
             TRIO-STRIKE TACTICAL GRID SYSTEM
           </p>
-        </header>
+        </div>
 
-        <ThemeSwitcher />
+        </header>
 
           <GameStats {...stats} />
         
